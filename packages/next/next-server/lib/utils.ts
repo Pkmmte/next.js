@@ -279,14 +279,19 @@ export function execOnce<T extends (...args: any[]) => ReturnType<T>>(
 }
 
 export function getLocationOrigin() {
-  const { protocol, hostname, port } = window.location
-  return `${protocol}//${hostname}${port ? ':' + port : ''}`
+  if (typeof window !== 'undefined') {
+    const { protocol, hostname, port } = window.location
+    return `${protocol}//${hostname}${port ? ':' + port : ''}`
+  }
+  return ''
 }
 
 export function getURL() {
-  const { href } = window.location
-  const origin = getLocationOrigin()
-  return href.substring(origin.length)
+  if (typeof window !== 'undefined') {
+    const { href } = window.location
+    const origin = getLocationOrigin()
+    return href.substring(origin.length)
+  }
 }
 
 export function getDisplayName<P>(Component: ComponentType<P>) {
